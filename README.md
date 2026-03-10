@@ -97,3 +97,56 @@ done
 ```
 
 然后通过 `/技能名称` 斜杠命令调用，如 `/fix`、`/code-reviewer`。
+
+### VS Code Copilot
+
+**方式一：项目级指令（推荐）**
+
+将技能内容合并到项目的 Copilot 指令文件中：
+
+```bash
+# 创建指令目录
+mkdir -p <项目路径>/.github
+
+# 将所有技能合并为一个指令文件
+for d in */; do
+  name=$(basename "$d")
+  echo -e "\n## Skill: $name\n" >> <项目路径>/.github/copilot-instructions.md
+  sed '1,/^---$/d' "$d/SKILL.md" | sed '1,/^---$/d' >> <项目路径>/.github/copilot-instructions.md
+done
+```
+
+Copilot Chat 会自动读取 `.github/copilot-instructions.md` 作为系统指令。
+
+**方式二：单个技能按需加载**
+
+在 Copilot Chat 中使用 `#file` 引用单个技能：
+
+```
+#file:code-reviewer/SKILL.md 请审查我当前的代码改动
+```
+
+**方式三：VS Code 设置（全局生效）**
+
+在 `settings.json` 中添加：
+
+```json
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": "/path/to/Agent-Skills/frontend-design/SKILL.md" },
+    { "file": "/path/to/Agent-Skills/fix/SKILL.md" }
+  ]
+}
+```
+
+### Cursor
+
+复制到 Cursor Rules 目录：
+
+```bash
+mkdir -p <项目路径>/.cursor/rules
+for d in */; do
+  name=$(basename "$d")
+  cp "$d/SKILL.md" "<项目路径>/.cursor/rules/${name}.mdc"
+done
+```
