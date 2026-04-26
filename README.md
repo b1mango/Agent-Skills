@@ -1,229 +1,75 @@
-# 🛠️ Agent Skills
+# Agent Skills
 
-AI Agent 通用技能集合，适用于 OpenClaw / Antigravity / Copilot 等 Agent 系统。
+AI Agent 通用技能存储仓库。
 
-> 这是本仓库的入口页：先按需求找到合适的 skill，再进入对应目录读取 `SKILL.md`。
+本仓库只负责保存可复用技能，不负责安装、复制或适配到具体 Agent / IDE。不同 Agent / IDE 应通过各自的提示词或规则读取本仓库，并按自身机制调用对应 skill。
 
----
+## 使用方式
 
-## 📌 这个仓库怎么用
+1. 先读取 `Agent-settings/rules/universal-repos.md`，确认通用仓库体系。
+2. 再读取 `Agent-settings/rules/skill-matching-rules.md`，根据用户任务匹配 skill。
+3. 进入本仓库对应 skill 目录。
+4. 读取该目录下的 `SKILL.md`。
+5. 如有 `references/`、`scripts/`、`assets/`，只在任务需要时按需读取或使用。
 
-1. 先根据你的任务类型，找到最接近的 skill
-2. 进入对应目录阅读 `SKILL.md`
-3. 如果是项目级使用，按下方安装方式复制到目标工具目录
-4. 如果仓库内容有更新，记得同步到 GitHub，保持各设备一致
+## 仓库职责
 
-## 📋 技能分类
+| 内容 | 放置位置 |
+|---|---|
+| 技能主说明 | `<skill-name>/SKILL.md` |
+| 长参考资料 | `<skill-name>/references/` |
+| 可执行辅助脚本 | `<skill-name>/scripts/` |
+| 输出素材或模板 | `<skill-name>/assets/` |
 
-### 🔍 代码审查
+## Skill 规范
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [code-review-skill](./code-review-skill/) | 结构化代码分析，覆盖正确性、性能、安全性 | `review code`、`check code quality` |
-| [code-reviewer](./code-reviewer/) | 专业代码审查 (PR + 本地变更) | `review my code`、`check this PR` |
-| [frontend-code-review](./frontend-code-review/) | 前端专用审查 (.tsx/.ts/.vue/.css) | `review frontend code`、`check components` |
+每个 skill 目录应满足：
 
-### 🏗️ 代码生成与文档
+1. 必须包含 `SKILL.md`。
+2. `SKILL.md` frontmatter 建议只保留 `name` 和 `description`，以兼容更多 Agent / IDE。
+3. `name` 使用小写字母、数字和连字符。
+4. `description` 写清楚能力和触发场景。
+5. 正文只保留核心流程，长文档放入 `references/`。
+6. 不写入密钥、令牌、密码、Cookie、验证码、私钥等敏感内容。
+7. 不写入某个本地机器独有的路径或临时项目状态。
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [codegen-doc](./codegen-doc/) | 从代码自动生成文档 (JSDoc/TypeDoc/Rustdoc) | `generate docs`、`document this code` |
-| [codegen-diagram](./codegen-diagram/) | 从代码生成架构图 (Mermaid/PlantUML) | `generate diagram`、`visualize architecture` |
-| [drawio-diagram](./drawio-diagram/) | 创建 draw.io XML 格式的流程/架构图 | `create flowchart`、`design diagram` |
-| [pptgen-drawio](./pptgen-drawio/) | 从 draw.io 图表生成 PPT 演示文稿 | `create presentation`、`make PPT` |
+## 技能索引
 
-### 🐛 调试与修复
+技能匹配以 `Agent-settings/rules/skill-matching-rules.md` 为准。本 README 只提供仓库入口，避免维护重复索引。
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [fix](./fix/) | 系统性 Bug 定位与修复流程 | `fix this bug`、`debug this issue` |
+常见入口：
 
-### 🎨 前端设计
+| 场景 | 入口 |
+|---|---|
+| 代码审查 | `code-reviewer/` |
+| Bug 定位与修复 | `fix/` |
+| 前端代码审查 | `frontend-code-review/` |
+| 前端设计 | `frontend-design/` |
+| Web 测试 | `webapp-testing/` |
+| 联网访问 | `web-access/` |
+| 文档更新 | `update-docs/` |
+| 论文写作 | `paper-write/` |
+| 技能创建与转换 | `skill-create/`、`skill-prompt-convert/` |
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [frontend-design](./frontend-design/) | 生产级前端界面设计，避免 AI 模板感 | 构建网页组件、Landing Page、Dashboard |
-| [web-design-guidelines](./web-design-guidelines/) | Web 界面规范检查 (可访问性/UX) | `review my UI`、`check accessibility` |
-| [vercel-react-best-practices](./vercel-react-best-practices/) | React/Next.js 性能优化指南 | React 组件编写、Next.js 优化 |
+## 代码审查技能
 
-### 🧪 测试
+`code-reviewer/` 是当前代码审查主入口。
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [webapp-testing](./webapp-testing/) | Playwright 驱动的 Web 应用测试 | 前端功能验证、截图、日志查看 |
+`code-review-skill/` 只作为旧名称兼容入口保留；新规则和新提示词应优先匹配 `code-reviewer/`。
 
-### 🌐 网页抓取与联网
+## 不再维护安装脚本
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [web-access](./web-access/) | 完整联网能力：三层通道调度 + CDP 浏览器 + 并行分治 (改编自 [eze-is/web-access](https://github.com/eze-is/web-access)) | 搜索信息、访问网页、浏览器操作 |
-| [scrapling](./scrapling/) | 高级反爬抓取 (Cloudflare 绕过、隐身指纹、自适应追踪) | 抓取受保护网站、动态内容 |
+本仓库不再维护 `setup.ps1`、`setup.sh` 等批量安装脚本。
 
-### 📝 写作
+原因：
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [paper-write](./paper-write/) | 学术/技术论文写作辅助 | `write a paper`、`draft research paper` |
-| [wechat-article-writer](./wechat-article-writer/) | 微信公众号文章撰写与排版 | `write WeChat article` |
+1. 通用仓库提示词已经负责让 Agent / IDE 知道如何读取本仓库。
+2. 批量复制 skill 会产生本地副本漂移。
+3. 不同 Agent / IDE 的调用方式应由对应工具侧提示词或规则处理。
+4. 本仓库应作为单一事实源，而不是安装器。
 
-### 📦 工程化
+## 与 Agent-settings 的关系
 
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [pr-creator](./pr-creator/) | 标准化 Pull Request 创建 | `create a PR`、`submit changes` |
-| [update-docs](./update-docs/) | 根据代码变更同步更新文档 | `update docs`、`sync documentation` |
-
-### ⚙️ 技能管理
-
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [find-skills](./find-skills/) | 发现和安装新技能 | `find a skill for X` |
-| [skill-create](./skill-create/) | 创建/编辑/评测技能 | 创建新 Skill、优化 Skill |
-| [skill-prompt-convert](./skill-prompt-convert/) | 在不同 Agent 格式间转换技能 | `convert a prompt`、`port a skill` |
-| [skill-vetter](./skill-vetter/) | 技能安全审计 | `vet a skill`、`audit skill security` |
-
-### 🚀 效率优化
-
-| 技能 | 说明 | 触发关键词 |
-|------|------|-----------|
-| [optimizing-tokens](./optimizing-tokens/) | 减少 Token 消耗，优化输出效率 | 始终自动生效 |
-
----
-
-## 🔄 同步约定
-
-- 这个仓库是 skills 的同步源之一，skills 目录有变动时应及时提交并推送到 GitHub
-- 与 Copilot / Agent 相关的规则仓库更新时，也要一起保持版本一致，避免不同设备看到的规则不一致
-- 如果新增、修改或重命名 skill，建议同时检查 README、目录结构和触发关键词是否需要更新
-
----
-
-## 🚀 快速安装
-
-克隆本仓库后，使用安装脚本一键导入 skills 到目标工具。
-
-```bash
-git clone https://github.com/b1mango/Agent-Skills.git
-cd Agent-Skills
-```
-
-### macOS / Linux
-
-```bash
-chmod +x setup.sh
-
-# 安装到指定工具（全局）
-./setup.sh antigravity     # → ~/.gemini/skills/
-./setup.sh copilot         # → ~/.vscode/skills/
-./setup.sh openclaw        # → ~/.openclaw/skills/
-./setup.sh claude          # → ~/.claude/skills/
-
-# 一键安装到所有工具
-./setup.sh all
-```
-
-### Windows (PowerShell)
-
-```powershell
-# 安装到指定工具（全局）
-.\setup.ps1 antigravity     # → ~/.gemini/skills/
-.\setup.ps1 copilot         # → ~/.vscode/skills/
-.\setup.ps1 openclaw        # → ~/.openclaw/skills/
-.\setup.ps1 claude          # → ~/.claude/skills/
-
-# 一键安装到所有工具
-.\setup.ps1 all
-```
-
----
-
-## 📂 项目级安装
-
-如果只想在某个项目中使用这些 skills（而非全局），使用 `--project` 参数：
-
-### macOS / Linux
-
-```bash
-# 安装到当前项目
-./setup.sh copilot --project
-
-# 安装到指定项目路径
-./setup.sh antigravity --project /path/to/project
-```
-
-### Windows (PowerShell)
-
-```powershell
-# 安装到当前项目
-.\setup.ps1 copilot -Project
-
-# 安装到指定项目路径
-.\setup.ps1 antigravity -Project -ProjectPath C:\path\to\project
-```
-
-项目级安装路径：
-
-| 工具 | 项目路径 | 说明 |
-|------|----------|------|
-| Antigravity | `.agents/workflows/` | 自动转为 workflow 格式 |
-| VS Code Copilot | `.github/skills/` | 直接复制 SKILL.md |
-| OpenClaw | `skills/` | 直接复制 SKILL.md |
-| Claude Code | `.claude/skills/` | 直接复制 SKILL.md |
-
-> **注意**：Antigravity 项目级安装会自动将 `SKILL.md` 转换为 workflow 格式（`---\ndescription: ...\n---` 的 frontmatter），安装后可通过 `/技能名称` 斜杠命令调用，如 `/fix`、`/code-reviewer`。
-
----
-
-## 🔧 手动安装（可选）
-
-如果你不想使用安装脚本，也可以手动复制：
-
-<details>
-<summary>OpenClaw</summary>
-
-```bash
-cp -R ./*/ ~/.openclaw/skills/
-```
-</details>
-
-<details>
-<summary>Antigravity / Gemini CLI（全局）</summary>
-
-```bash
-cp -R ./*/ ~/.gemini/skills/
-```
-</details>
-
-<details>
-<summary>VS Code Copilot（通过 settings.json）</summary>
-
-在 `settings.json` 中添加：
-
-```json
-{
-  "github.copilot.chat.codeGeneration.instructions": [
-    { "file": "/path/to/Agent-Skills/frontend-design/SKILL.md" },
-    { "file": "/path/to/Agent-Skills/fix/SKILL.md" }
-  ]
-}
-```
-
-或在 Copilot Chat 中用 `#file` 按需加载：
-
-```
-#file:code-reviewer/SKILL.md 请审查我当前的代码改动
-```
-</details>
-
-<details>
-<summary>Cursor</summary>
-
-```bash
-mkdir -p <项目路径>/.cursor/rules
-for d in */; do
-  name=$(basename "$d")
-  cp "$d/SKILL.md" "<项目路径>/.cursor/rules/${name}.mdc"
-done
-```
-</details>
-
+- `Agent-settings/rules/`：放通用规则，例如仓库读取、技能匹配、GitHub 上传、上下文压缩。
+- `Agent-settings/memory/`：放对话压缩记忆。
+- `Agent-Skills/`：只放技能。
