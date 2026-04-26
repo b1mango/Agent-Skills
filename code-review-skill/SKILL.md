@@ -1,73 +1,62 @@
 ---
 name: code-review-skill
-description: Comprehensive code review skill with structured analysis and actionable feedback. Use when asked to "review code", "check code quality", or when performing systematic code analysis for correctness, performance, security, and maintainability.
+description: Compatibility alias for the canonical code-reviewer skill. Use only when older prompts or users explicitly reference code-review-skill; otherwise prefer Agent-Skills/code-reviewer/SKILL.md for code reviews, PR reviews, diffs, staged or unstaged changes, and systematic analysis of correctness, security, performance, maintainability, and tests.
 ---
 
 # Code Review Skill
 
-Comprehensive, structured code review with actionable feedback and severity-based prioritization.
+This skill name is kept for backward compatibility.
 
-## When to Use
-- Reviewing pull requests or code changes
-- User asks for code quality feedback
-- Systematic code analysis before deployment
-- Learning and mentoring through code review
+For new code review tasks, use the canonical skill:
 
-## Review Framework
-
-### Phase 1: Understanding
-1. Read the code to understand its purpose
-2. Identify the scope of changes
-3. Check for related documentation/tests
-
-### Phase 2: Analysis Dimensions
-
-#### Correctness
-- Does the code do what it's supposed to?
-- Are edge cases handled?
-- Is error handling complete?
-- Are there off-by-one errors?
-
-#### Performance
-- Are there unnecessary computations?
-- Is memory usage optimal?
-- Are there potential bottlenecks?
-- Could caching help?
-
-#### Security
-- Input validation present?
-- SQL injection / XSS / CSRF protection?
-- Authentication and authorization checks?
-- Sensitive data handling?
-
-#### Maintainability
-- Is the code readable?
-- Are naming conventions followed?
-- Is complexity manageable?
-- Are there proper abstractions?
-
-#### Testing
-- Are critical paths tested?
-- Are edge cases covered?
-- Are tests meaningful (not just coverage)?
-
-### Phase 3: Report
-
+```text
+Agent-Skills/code-reviewer/SKILL.md
 ```
-## Code Review Summary
 
-**Overall: [APPROVE / REQUEST CHANGES / NEEDS DISCUSSION]**
+## Compatibility Behavior
 
-### 🔴 Critical (X issues)
-- [file:line] Issue description → Suggested fix
+When this skill is triggered:
 
-### 🟡 Important (X issues)
-- [file:line] Issue description → Suggested fix
+1. Prefer reading `../code-reviewer/SKILL.md` and follow it.
+2. If the canonical skill cannot be read, use the fallback checklist below.
+3. Do not maintain a separate review style here; keep code review behavior centralized in `code-reviewer`.
 
-### 🔵 Suggestions (X items)
-- [file:line] Improvement → How to improve
+## Fallback Checklist
 
-### ✅ Positive Highlights
-- Well-structured error handling in X
-- Good use of design pattern Y
+Review in this order:
+
+1. Correctness: logic bugs, edge cases, regressions, async/race issues, error handling.
+2. Security: validation, authorization, injection, XSS/CSRF, secret exposure.
+3. Data safety: destructive writes, migrations, data loss, permission changes.
+4. Performance: inefficient algorithms, N+1 work, excessive rendering, memory leaks.
+5. Maintainability: complexity, unclear ownership, brittle abstractions, duplication.
+6. Tests: missing regression coverage, weak assertions, flaky tests.
+
+## Fallback Output
+
+Start with findings, ordered by severity. If there are no findings, say so clearly.
+
+```text
+## Findings
+
+[P1] file:line - Title
+Impact: ...
+Why: ...
+Fix: ...
+
+## Open Questions
+
+- ...
+
+## Summary
+
+- Overall: approve / request changes / needs discussion
+- Tests: ...
 ```
+
+Severity levels:
+
+- `P0`: critical, must fix immediately.
+- `P1`: should fix before merge.
+- `P2`: fix soon.
+- `P3`: optional improvement.
